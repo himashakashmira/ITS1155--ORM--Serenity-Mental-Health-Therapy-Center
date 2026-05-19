@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="740.0" prefWidth="950.0"
+            style="-fx-background-color:transparent;"
+            stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/11"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.serenity.controller.TherapyProgramController">
+    <children>
+        <VBox layoutX="35" layoutY="30" spacing="22"
+              AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
+            <children>
+
+                <VBox spacing="4">
+                    <Label text="📋 Therapy Program Management" styleClass="section-title"/>
+                    <Label text="Define therapy programs with duration and fee (Admin only)." styleClass="section-subtitle"/>
+                </VBox>
+
+                <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
+                    <HBox spacing="20">
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Program ID" styleClass="field-label"/>
+                            <TextField fx:id="txtId" prefHeight="42" promptText="Ex: PR001"/>
+                            <Label text="Program Name" styleClass="field-label"/>
+                            <TextField fx:id="txtName" prefHeight="42" promptText="e.g. Anxiety Management"/>
+                        </VBox>
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Duration" styleClass="field-label"/>
+                            <TextField fx:id="txtDuration" prefHeight="42" promptText="e.g. 8 Weeks"/>
+                            <Label text="Fee (LKR)" styleClass="field-label"/>
+                            <TextField fx:id="txtFee" prefHeight="42" promptText="e.g. 15000.00"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
+                               style="-fx-font-size:12px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Clear"  styleClass="btn-muted"    onAction="#btnClearOnAction"  prefWidth="90"/>
+                        <Button text="Add"    styleClass="btn-mint"     onAction="#btnSaveOnAction"   prefWidth="90"/>
+                        <Button text="Update" styleClass="btn-lavender" onAction="#btnUpdateOnAction" prefWidth="100"/>
+                        <Button text="Delete" styleClass="btn-danger"   onAction="#btnDeleteOnAction" prefWidth="90"/>
+                    </HBox>
+                </VBox>
+
+                <TableView fx:id="tblProgram" VBox.vgrow="ALWAYS" prefHeight="310">
+                    <columns>
+                        <TableColumn fx:id="colId"       text="ID"       prefWidth="90"/>
+                        <TableColumn fx:id="colName"     text="Program"  prefWidth="250"/>
+                        <TableColumn fx:id="colDuration" text="Duration" prefWidth="150"/>
+                        <TableColumn fx:id="colFee"      text="Fee (LKR)" prefWidth="150"/>
+                    </columns>
+                    <placeholder><Label text="No programs defined yet." styleClass="section-subtitle"/></placeholder>
+                </TableView>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

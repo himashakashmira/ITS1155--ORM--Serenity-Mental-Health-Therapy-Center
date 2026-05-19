@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="780.0" prefWidth="950.0"
+            style="-fx-background-color:transparent;"
+            stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/11"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.serenity.controller.TherapistController">
+    <children>
+        <VBox layoutX="35" layoutY="30" spacing="22"
+              AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
+            <children>
+
+                <VBox spacing="4">
+                    <Label text="👨‍⚕️ Therapist Management" styleClass="section-title"/>
+                    <Label text="Add, update, and manage therapist profiles (Admin only)."
+                           styleClass="section-subtitle"/>
+                </VBox>
+
+                <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
+                    <HBox spacing="20">
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Therapist ID" styleClass="field-label"/>
+                            <TextField fx:id="txtId" prefHeight="42" promptText="Ex: T001"/>
+                            <Label text="Full Name" styleClass="field-label"/>
+                            <TextField fx:id="txtName" prefHeight="42" promptText="Full name"/>
+                            <Label text="Specialization" styleClass="field-label"/>
+                            <TextField fx:id="txtSpecialization" prefHeight="42"
+                                       promptText="e.g. Cognitive Behavioural"/>
+                        </VBox>
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Phone" styleClass="field-label"/>
+                            <TextField fx:id="txtPhone" prefHeight="42" promptText="07XXXXXXXX"/>
+                            <Label text="Email" styleClass="field-label"/>
+                            <TextField fx:id="txtEmail" prefHeight="42" promptText="email@example.com"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
+                               style="-fx-font-size:12px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Clear" styleClass="btn-muted" onAction="#btnClearOnAction" prefWidth="90"/>
+                        <Button text="Add" styleClass="btn-mint" onAction="#btnSaveOnAction" prefWidth="90"/>
+                        <!--                        <Button text="Update" styleClass="btn-lavender" onAction="#btnUpdateOnAction" prefWidth="100"/>-->
+                        <!--                        <Button text="Delete" styleClass="btn-danger"   onAction="#btnDeleteOnAction" prefWidth="90"/>-->
+                    </HBox>
+                </VBox>
+
+                <TableView fx:id="tblTherapist" VBox.vgrow="ALWAYS" prefHeight="330">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+                        <TableColumn fx:id="colName" text="Name" prefWidth="170"/>
+                        <TableColumn fx:id="colSpec" text="Specialization" prefWidth="200"/>
+                        <TableColumn fx:id="colPhone" text="Phone" prefWidth="120"/>
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No therapist records found." styleClass="section-subtitle"/>
+                    </placeholder>
+                </TableView>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

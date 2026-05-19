@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="960.0"
+            style="-fx-background-color:transparent;"
+            stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/11"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.serenity.controller.TherapySessionController">
+    <children>
+        <VBox layoutX="35" layoutY="30" spacing="22"
+              AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
+            <children>
+
+                <VBox spacing="4">
+                    <Label text="📅 Therapy Session Scheduling" styleClass="section-title"/>
+                    <Label text="Schedule and track therapy sessions for patients." styleClass="section-subtitle"/>
+                </VBox>
+
+                <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
+                    <HBox spacing="20">
+                        <!-- Left col -->
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Patient" styleClass="field-label"/>
+                            <ComboBox fx:id="cmbPatient" maxWidth="Infinity" prefHeight="42"
+                                      promptText="Select Patient"/>
+                            <Label text="Therapist" styleClass="field-label"/>
+                            <ComboBox fx:id="cmbTherapist" maxWidth="Infinity" prefHeight="42"
+                                      promptText="Select Therapist"/>
+                            <Label text="Program" styleClass="field-label"/>
+                            <ComboBox fx:id="cmbProgram" maxWidth="Infinity" prefHeight="42"
+                                      promptText="Select Program"/>
+                        </VBox>
+                        <!-- Right col -->
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Session Date" styleClass="field-label"/>
+                            <DatePicker fx:id="dpDate" maxWidth="Infinity" prefHeight="42"/>
+                            <Label text="Status" styleClass="field-label"/>
+                            <ComboBox fx:id="cmbStatus" maxWidth="Infinity" prefHeight="42"/>
+                            <Label text="Notes" styleClass="field-label"/>
+                            <TextArea fx:id="txaNotes" prefHeight="80" wrapText="true"
+                                      promptText="Optional session notes..."/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
+                               style="-fx-font-size:12px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+<!--                        <Button text="Clear"    styleClass="btn-muted"    onAction="#btnClearOnAction"  prefWidth="90"/>-->
+<!--                        <Button text="Schedule" styleClass="btn-mint"     onAction="#btnSaveOnAction"   prefWidth="110"/>-->
+<!--                        <Button text="Update"   styleClass="btn-lavender" onAction="#btnUpdateOnAction" prefWidth="100"/>-->
+<!--                        <Button text="Delete"   styleClass="btn-danger"   onAction="#btnDeleteOnAction" prefWidth="90"/>-->
+                    </HBox>
+                </VBox>
+
+                <TableView fx:id="tblSession" VBox.vgrow="ALWAYS" prefHeight="300">
+                    <columns>
+                        <TableColumn fx:id="colId"        text="#"          prefWidth="50"/>
+                        <TableColumn fx:id="colDate"      text="Date"       prefWidth="110"/>
+                        <TableColumn fx:id="colPatient"   text="Patient"    prefWidth="160"/>
+                        <TableColumn fx:id="colTherapist" text="Therapist"  prefWidth="160"/>
+                        <TableColumn fx:id="colProgram"   text="Program"    prefWidth="180"/>
+                        <TableColumn fx:id="colStatusCol" text="Status"     prefWidth="110"/>
+                    </columns>
+                    <placeholder><Label text="No sessions scheduled." styleClass="section-subtitle"/></placeholder>
+                </TableView>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

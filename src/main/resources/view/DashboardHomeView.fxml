@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="970.0" style="-fx-background-color:transparent;"
+            stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox layoutX="40" layoutY="40" spacing="28"
+              AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40">
+            <children>
+
+                <!-- Title -->
+                <VBox spacing="4">
+                    <Label text="📊 Dashboard Overview" styleClass="section-title"/>
+                    <Label text="Manage your center operations smoothly and efficiently."
+                           styleClass="section-subtitle"/>
+                </VBox>
+
+                <!-- Stat Cards Row -->
+                <HBox spacing="24">
+                    <children>
+                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
+                            <Label text="Total Patients" styleClass="stat-label"/>
+                            <Label text="—" styleClass="stat-number"/>
+                        </VBox>
+                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
+                            <Label text="Today's Sessions" styleClass="stat-label"/>
+                            <Label text="—" styleClass="stat-number-mint"/>
+                        </VBox>
+                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
+                            <Label text="Active Therapists" styleClass="stat-label"/>
+                            <Label text="—" styleClass="stat-number-lavender"/>
+                        </VBox>
+                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
+                            <Label text="Pending Payments" styleClass="stat-label"/>
+                            <Label text="—" styleClass="stat-number"/>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Info card -->
+                <VBox styleClass="glass-panel" style="-fx-padding:24;" spacing="8">
+                    <Label text="🌿 Welcome to Serenity Therapy Center" styleClass="section-title"
+                           style="-fx-font-size:18px;"/>
+                    <Label text="Use the sidebar to navigate between Patients, Therapists, Programs, Sessions and Payments."
+                           styleClass="section-subtitle" wrapText="true"/>
+                </VBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

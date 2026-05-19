@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="780.0" prefWidth="950.0"
+            style="-fx-background-color:transparent;"
+            stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/11"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.serenity.controller.PatientController">
+    <children>
+        <VBox layoutX="35" layoutY="30" spacing="22"
+              AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
+            <children>
+
+                <!-- Page Title -->
+                <VBox spacing="4">
+                    <Label text="👤 Patient Management" styleClass="section-title"/>
+                    <Label text="Register, update, and manage patient records." styleClass="section-subtitle"/>
+                </VBox>
+
+                <!-- Form Card -->
+                <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
+                    <HBox spacing="20">
+                        <!-- Left column -->
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Patient ID" styleClass="field-label"/>
+                            <TextField fx:id="txtId" prefHeight="42" promptText="Ex: P001"/>
+                            <Label text="Full Name" styleClass="field-label"/>
+                            <TextField fx:id="txtName" prefHeight="42" promptText="Full name"/>
+                            <Label text="Address" styleClass="field-label"/>
+                            <TextField fx:id="txtAddress" prefHeight="42" promptText="Address"/>
+                        </VBox>
+                        <!-- Right column -->
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Email" styleClass="field-label"/>
+                            <TextField fx:id="txtEmail" prefHeight="42" promptText="email@example.com"/>
+                            <Label text="Phone" styleClass="field-label"/>
+                            <TextField fx:id="txtPhone" prefHeight="42" promptText="07XXXXXXXX"/>
+                            <Label text="Registration Date" styleClass="field-label"/>
+                            <DatePicker fx:id="dpRegDate" prefHeight="42" maxWidth="Infinity"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Status + Buttons -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
+                               style="-fx-font-size:12px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Clear" styleClass="btn-muted" onAction="#btnClearOnAction" prefWidth="90"/>
+                        <Button text="Register" styleClass="btn-mint" onAction="#btnSaveOnAction" prefWidth="110"/>
+                        <Button text="Update" styleClass="btn-lavender" onAction="#btnUpdateOnAction" prefWidth="100"/>
+                        <Button text="Delete" styleClass="btn-danger" onAction="#btnDeleteOnAction" prefWidth="90"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Table -->
+                <TableView fx:id="tblPatient" VBox.vgrow="ALWAYS" prefHeight="330">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+                        <TableColumn fx:id="colName" text="Name" prefWidth="170"/>
+                        <TableColumn fx:id="colAddress" text="Address" prefWidth="150"/>
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
+                        <TableColumn fx:id="colPhone" text="Phone" prefWidth="120"/>
+                        <TableColumn fx:id="colRegDate" text="Registered" prefWidth="120"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No patient records found." styleClass="section-subtitle"/>
+                    </placeholder>
+                </TableView>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

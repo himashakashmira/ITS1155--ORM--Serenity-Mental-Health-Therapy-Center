@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane prefHeight="520.0" prefWidth="850.0" styleClass="main-bg" stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.serenity.controller.LoginController">
+
+    <Pane layoutX="600" layoutY="-80" prefWidth="360" prefHeight="360"
+          style="-fx-background-color:rgba(56,161,105,0.10);-fx-background-radius:360;-fx-effect:dropshadow(gaussian,rgba(56,161,105,0.12),80,0,0,0);"/>
+    <Pane layoutX="-80" layoutY="300" prefWidth="300" prefHeight="300"
+          style="-fx-background-color:rgba(108,99,255,0.08);-fx-background-radius:300;-fx-effect:dropshadow(gaussian,rgba(108,99,255,0.10),60,0,0,0);"/>
+
+    <children>
+        <!-- Center Login Card -->
+        <VBox alignment="CENTER" layoutX="225.0" layoutY="60.0"
+              prefWidth="400.0" spacing="0.0" styleClass="login-card"
+              style="-fx-padding: 40 45;">
+            <children>
+
+                <!-- Logo / Title -->
+                <VBox alignment="CENTER" spacing="4">
+                    <Label text="🌿 SERENITY" styleClass="login-title">
+                        <font>
+                            <Font name="System Bold" size="28.0"/>
+                        </font>
+                    </Label>
+                    <Label text="Mental Health Therapy Center" styleClass="login-subtitle"/>
+                </VBox>
+
+                <!-- Divider -->
+                <Separator style="-fx-padding: 16 0;">
+                    <VBox.margin>
+                        <Insets top="16" bottom="16"/>
+                    </VBox.margin>
+                </Separator>
+                <Region prefHeight="18"/>
+
+                <!-- Form -->
+                <VBox spacing="14">
+                    <Label text="Username" styleClass="field-label"/>
+                    <TextField fx:id="txtUsername" prefHeight="44.0"
+                               promptText="Enter your username"/>
+
+                    <Label text="Password" styleClass="field-label"/>
+                    <PasswordField fx:id="txtPassword" prefHeight="44.0"
+                                   promptText="Enter your password"/>
+
+                    <Region prefHeight="6"/>
+
+                    <Button fx:id="btnLogin" maxWidth="Infinity"
+                            text="Sign In →"
+                            styleClass="btn-mint"
+                            prefHeight="46.0"
+                            onAction="#btnLoginOnAction"/>
+
+                    <Label fx:id="lblError" styleClass="error-label" maxWidth="Infinity"
+                           alignment="CENTER" wrapText="true"/>
+                </VBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

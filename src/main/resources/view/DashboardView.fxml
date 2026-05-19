@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" styleClass="main-bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenity.controller.DashboardController">
+
+    <children>
+
+        <!-- Background glow blobs -->
+        <Pane layoutX="800" layoutY="-100" prefWidth="450" prefHeight="450"
+              style="-fx-background-color:rgba(56,161,105,0.09);-fx-background-radius:450;"/>
+        <Pane layoutX="-50" layoutY="500" prefWidth="350" prefHeight="350"
+              style="-fx-background-color:rgba(108,99,255,0.07);-fx-background-radius:350;"/>
+
+        <!-- ── Sidebar ─────────────────────────────────────────── -->
+        <VBox prefWidth="230.0" styleClass="sidebar"
+              AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+            <children>
+
+                <!-- Logo -->
+                <VBox alignment="CENTER" prefHeight="120" style="-fx-padding: 20 10 10;">
+                    <Label text="🌿 Serenity" styleClass="sidebar-logo-label">
+                        <font>
+                            <Font name="System Bold" size="20.0"/>
+                        </font>
+                    </Label>
+                    <Label text="Therapy Center" styleClass="sidebar-sub-label"/>
+                </VBox>
+
+                <Separator style="-fx-opacity:0.4;"/>
+                <Region prefHeight="8"/>
+
+                <!-- Welcome label -->
+                <Label fx:id="lblWelcome" style="-fx-padding:0 15 8 18;-fx-text-fill:#718096;-fx-font-size:11px;"
+                       wrapText="true" maxWidth="210"/>
+
+                <!-- Nav Buttons -->
+                <VBox spacing="4" style="-fx-padding: 0 10;">
+                    <Button maxWidth="Infinity" styleClass="side-btn" text="📊  Dashboard"
+                            onAction="#btnDashboardOnAction"/>
+                    <Button maxWidth="Infinity" styleClass="side-btn" text="👤  Patients"
+                            onAction="#btnPatientsOnAction"/>
+                    <Button fx:id="btnTherapists" maxWidth="Infinity" styleClass="side-btn"
+                            text="👨‍⚕️  Therapists"
+                            onAction="#btnTherapistsOnAction"/>
+                    <Button fx:id="btnPrograms" maxWidth="Infinity" styleClass="side-btn"
+                            text="📋  Programs"
+                            onAction="#btnProgramsOnAction"/>
+                    <Button maxWidth="Infinity" styleClass="side-btn" text="📅  Sessions"
+                            onAction="#btnSessionsOnAction"/>
+                    <Button maxWidth="Infinity" styleClass="side-btn" text="💳  Payments"
+                            onAction="#btnPaymentsOnAction"/>
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Separator style="-fx-opacity:0.4;"/>
+                <VBox style="-fx-padding: 8 10;">
+                    <Button maxWidth="Infinity" styleClass="side-btn-danger"
+                            text="🚪  Logout" onAction="#btnLogoutOnAction"/>
+                </VBox>
+
+            </children>
+        </VBox>
+
+        <!-- ── Main Content Area ────────────────────────────────── -->
+        <AnchorPane fx:id="contentArea" layoutX="230.0"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="230.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0"
+                    style="-fx-background-color:transparent;">
+        </AnchorPane>
+
+    </children>
+</AnchorPane>
