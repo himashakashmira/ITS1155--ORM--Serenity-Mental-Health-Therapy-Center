@@ -11,9 +11,18 @@ public class Therapist {
     private String name;
     private String specialization;
     private String phone;
+    private String email;
 
     @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
     private List<TherapySession> sessions;
+
+    public Therapist(String therapistId, String name, String specialization, String phone, String email) {
+        this.therapistId = therapistId;
+        this.name = name;
+        this.specialization = specialization;
+        this.phone = phone;
+        this.email = email;
+    }
 
     public Therapist() {
     }
@@ -50,6 +59,14 @@ public class Therapist {
         this.phone = phone;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public List<TherapySession> getSessions() {
         return sessions;
     }
@@ -57,4 +74,5 @@ public class Therapist {
     public void setSessions(List<TherapySession> sessions) {
         this.sessions = sessions;
     }
+
 }

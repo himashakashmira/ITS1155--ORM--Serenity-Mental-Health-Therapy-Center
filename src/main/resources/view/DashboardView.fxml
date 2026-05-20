@@ -8,13 +8,12 @@
 
     <children>
 
-        <!-- Background glow blobs -->
         <Pane layoutX="800" layoutY="-100" prefWidth="450" prefHeight="450"
               style="-fx-background-color:rgba(56,161,105,0.09);-fx-background-radius:450;"/>
         <Pane layoutX="-50" layoutY="500" prefWidth="350" prefHeight="350"
               style="-fx-background-color:rgba(108,99,255,0.07);-fx-background-radius:350;"/>
 
-        <!-- ── Sidebar ─────────────────────────────────────────── -->
+        <!-- Sidebar -->
         <VBox prefWidth="230.0" styleClass="sidebar"
               AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0"
@@ -67,7 +66,7 @@
             </children>
         </VBox>
 
-        <!-- ── Main Content Area ────────────────────────────────── -->
+        <!-- Main Content Area -->
         <AnchorPane fx:id="contentArea" layoutX="230.0"
                     AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="230.0"

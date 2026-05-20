@@ -1,7 +1,6 @@
 package lk.ijse.serenity.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,96 +13,112 @@ import java.util.List;
 
 public class TherapistController {
 
-    @FXML private TextField txtTherapistId;
-    @FXML private TextField txtTherapistName;
-    @FXML private TextField txtSpecialization;
-    @FXML private TextField txtPhone;
-    @FXML private TextField txtSearch;
+    @FXML
+    private TextField txtId;
+    @FXML
+    private TextField txtName;
+    @FXML
+    private TextField txtSpecialization;
+    @FXML
+    private TextField txtPhone;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private Label lblStatus;
 
-    @FXML private TableView<TherapistDTO> tblTherapist;
-    @FXML private TableColumn<TherapistDTO, String> colId;
-    @FXML private TableColumn<TherapistDTO, String> colName;
-    @FXML private TableColumn<TherapistDTO, String> colSpecialization;
-    @FXML private TableColumn<TherapistDTO, String> colPhone;
-
-    @FXML private Button btnSave;
+    @FXML
+    private TableView<TherapistDTO> tblTherapist;
+    @FXML
+    private TableColumn<TherapistDTO, String> colId;
+    @FXML
+    private TableColumn<TherapistDTO, String> colName;
+    @FXML
+    private TableColumn<TherapistDTO, String> colSpec;
+    @FXML
+    private TableColumn<TherapistDTO, String> colPhone;
+    @FXML
+    private TableColumn<TherapistDTO, String> colEmail;
 
     private final TherapistService therapistService = ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST);
 
     public void initialize() {
-        // 1. Table Columns
         colId.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colSpecialization.setCellValueFactory(new PropertyValueFactory<>("specialization"));
+        colSpec.setCellValueFactory(new PropertyValueFactory<>("specialization"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         loadAllTherapists();
 
+        // select the table fill the field
         tblTherapist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                setDataToFields(newValue);
+                setData(newValue);
             }
-        });
-
-        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterTherapists(newValue);
         });
     }
 
     private void loadAllTherapists() {
-        List<TherapistDTO> allTherapists = therapistService.getAllTherapists();
-        tblTherapist.setItems(FXCollections.observableArrayList(allTherapists));
+        try {
+            List<TherapistDTO> all = therapistService.getAllTherapists();
+            tblTherapist.setItems(FXCollections.observableArrayList(all));
+        } catch (Exception e) {
+            lblStatus.setText("Error loading data!");
+            lblStatus.setStyle("-fx-text-fill: #e53e3e;");
+        }
     }
 
-    private void setDataToFields(TherapistDTO therapist) {
-        txtTherapistId.setText(therapist.getTherapistId());
-        txtTherapistName.setText(therapist.getName());
-        txtSpecialization.setText(therapist.getSpecialization());
-        txtPhone.setText(therapist.getPhone());
-
-        txtTherapistId.setEditable(false);
-        btnSave.setText("Update Therapist");
+    private void setData(TherapistDTO dto) {
+        txtId.setText(dto.getTherapistId());
+        txtName.setText(dto.getName());
+        txtSpecialization.setText(dto.getSpecialization());
+        txtPhone.setText(dto.getPhone());
+        txtEmail.setText(dto.getEmail());
+        txtId.setEditable(false);
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        String id = txtTherapistId.getText();
-        String name = txtTherapistName.getText();
+        String id = txtId.getText();
+        String name = txtName.getText();
         String spec = txtSpecialization.getText();
         String phone = txtPhone.getText();
+        String email = txtEmail.getText();
 
-        if (id.isEmpty() || name.isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please fill required fields!").show();
+        if (!id.matches("^T[0-9]{3,}$")) {
+            lblStatus.setText("Invalid ID! Use T001 format.");
+            lblStatus.setStyle("-fx-text-fill: #e53e3e;");
             return;
         }
 
-        TherapistDTO dto = new TherapistDTO(id, name, spec, phone);
+        TherapistDTO dto = new TherapistDTO(id, name, spec, phone, email);
 
-        if (btnSave.getText().equalsIgnoreCase("Save Therapist")) {
-            // SAVE logic
-            if (therapistService.saveTherapist(dto)) {
-                new Alert(Alert.AlertType.INFORMATION, "Therapist Saved!").show();
-            }
+        boolean isSaved = therapistService.saveTherapist(dto);
+
+        if (isSaved) {
+            lblStatus.setText("Therapist record updated successfully!");
+            lblStatus.setStyle("-fx-text-fill: #38a169;");
+            loadAllTherapists();
+            clear();
         } else {
-            // UPDATE logic (Service එකේ update method එක ලියන්න ඕන)
-            // if (therapistService.updateTherapist(dto)) { ... }
+            lblStatus.setText("Failed to save therapist.");
+            lblStatus.setStyle("-fx-text-fill: #e53e3e;");
         }
-
-        loadAllTherapists();
-        btnClearOnAction(event);
     }
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
-        txtTherapistId.clear();
-        txtTherapistName.clear();
-        txtSpecialization.clear();
-        txtPhone.clear();
-        txtTherapistId.setEditable(true);
-        btnSave.setText("Save Therapist");
+        clear();
+        lblStatus.setText("");
     }
 
-    private void filterTherapists(String searchText) {
-
+    private void clear() {
+        txtId.clear();
+        txtName.clear();
+        txtSpecialization.clear();
+        txtPhone.clear();
+        txtEmail.clear();
+        txtId.setEditable(true);
+        tblTherapist.getSelectionModel().clearSelection();
     }
 }

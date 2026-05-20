@@ -3,6 +3,7 @@ package lk.ijse.serenity.dao.custom.impl;
 import lk.ijse.serenity.dao.custom.TherapistDAO;
 import lk.ijse.serenity.entity.Therapist;
 import org.hibernate.Session;
+
 import java.util.List;
 
 public class TherapistDAOImpl implements TherapistDAO {
@@ -13,8 +14,24 @@ public class TherapistDAOImpl implements TherapistDAO {
     }
 
     @Override
-    public List<Therapist> getAll(Session session) {
-        return session.createQuery("FROM Therapist").list();
+    public boolean update(Therapist therapist, Session session) {
+        session.update(therapist);
+        return true;
     }
-    // Update සහ Delete අවශ්‍ය පරිදි පසුව එකතු කරමු
+
+    @Override
+    public boolean delete(Therapist therapist, Session session) {
+        session.delete(therapist);
+        return true;
+    }
+
+    @Override
+    public Therapist get(String id, Session session) {
+        return session.get(Therapist.class, id);
+    }
+
+    @Override
+    public List<Therapist> getAll(Session session) {
+        return session.createQuery("FROM Therapist", Therapist.class).list();
+    }
 }

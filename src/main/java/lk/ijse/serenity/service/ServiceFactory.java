@@ -2,6 +2,8 @@ package lk.ijse.serenity.service;
 
 import lk.ijse.serenity.service.custom.impl.*;
 
+import static lk.ijse.serenity.dao.DAOFactory.DAOType.PROGRAM;
+
 public class ServiceFactory {
     private static ServiceFactory serviceFactory;
 
@@ -13,7 +15,7 @@ public class ServiceFactory {
     }
 
     public enum ServiceType {
-        PATIENT, THERAPIST, AUTH
+        PATIENT, THERAPIST, PAYMENT, PROGRAM, AUTH
     }
 
     public <T> T getService(ServiceType type) {
@@ -22,9 +24,11 @@ public class ServiceFactory {
                 return (T) new PatientServiceImpl();
             case THERAPIST:
                 return (T) new TherapistServiceImpl();
-//            case PROGRAM:   return (T) new TherapyProgramServiceImpl();
+            case PROGRAM:
+                return (T) new TherapyProgramServiceImpl();
 //            case SESSION:   return (T) new TherapySessionServiceImpl();
-//            case PAYMENT:   return (T) new PaymentServiceImpl();
+            case PAYMENT:
+                return (T) new PaymentServiceImpl();
             case AUTH:
                 return (T) new AuthServiceImpl();
             default:

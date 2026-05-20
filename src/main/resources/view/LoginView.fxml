@@ -21,7 +21,7 @@
               style="-fx-padding: 40 45;">
             <children>
 
-                <!-- Logo / Title -->
+                <!-- Title -->
                 <VBox alignment="CENTER" spacing="4">
                     <Label text="🌿 SERENITY" styleClass="login-title">
                         <font>
@@ -31,7 +31,6 @@
                     <Label text="Mental Health Therapy Center" styleClass="login-subtitle"/>
                 </VBox>
 
-                <!-- Divider -->
                 <Separator style="-fx-padding: 16 0;">
                     <VBox.margin>
                         <Insets top="16" bottom="16"/>

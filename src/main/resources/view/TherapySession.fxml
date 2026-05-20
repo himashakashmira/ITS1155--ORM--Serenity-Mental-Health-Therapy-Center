@@ -22,7 +22,7 @@
 
                 <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
                     <HBox spacing="20">
-                        <!-- Left col -->
+                        <!-- Left column -->
                         <VBox spacing="12" HBox.hgrow="ALWAYS">
                             <Label text="Patient" styleClass="field-label"/>
                             <ComboBox fx:id="cmbPatient" maxWidth="Infinity" prefHeight="42"
@@ -34,7 +34,7 @@
                             <ComboBox fx:id="cmbProgram" maxWidth="Infinity" prefHeight="42"
                                       promptText="Select Program"/>
                         </VBox>
-                        <!-- Right col -->
+                        <!-- Right column -->
                         <VBox spacing="12" HBox.hgrow="ALWAYS">
                             <Label text="Session Date" styleClass="field-label"/>
                             <DatePicker fx:id="dpDate" maxWidth="Infinity" prefHeight="42"/>

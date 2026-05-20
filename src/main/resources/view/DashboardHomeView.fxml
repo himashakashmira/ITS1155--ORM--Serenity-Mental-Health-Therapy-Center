@@ -18,7 +18,7 @@
                            styleClass="section-subtitle"/>
                 </VBox>
 
-                <!-- Stat Cards Row -->
+                <!-- Stat Cards -->
                 <HBox spacing="24">
                     <children>
                         <VBox prefWidth="200" spacing="8" styleClass="stat-card">

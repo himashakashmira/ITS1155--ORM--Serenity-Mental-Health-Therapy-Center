@@ -13,7 +13,6 @@ public class SessionFactoryConfig {
     private final SessionFactory sessionFactory;
 
     private SessionFactoryConfig() {
-        // Lecture ගේ pattern එකට අනුව Property file එක load කිරීම
         Configuration configuration = new Configuration();
         Properties properties = new Properties();
         try {
@@ -24,7 +23,7 @@ public class SessionFactoryConfig {
 
         configuration.setProperties(properties);
 
-        // Entity classes connecting
+        // Entity classes connecter
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Patient.class);
         configuration.addAnnotatedClass(Therapist.class);

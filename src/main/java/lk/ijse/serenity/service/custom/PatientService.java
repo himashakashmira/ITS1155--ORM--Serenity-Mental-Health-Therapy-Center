@@ -5,9 +5,11 @@ import lk.ijse.serenity.dto.PatientDTO;
 import java.util.List;
 
 public interface PatientService {
-    boolean registerPatient(PatientDTO dto);
-
-    List<PatientDTO> getAllPatients();
+    boolean savePatient(PatientDTO dto);
 
     boolean updatePatient(PatientDTO dto);
+
+    boolean deletePatient(String id);
+
+    List<PatientDTO> getAllPatients();
 }

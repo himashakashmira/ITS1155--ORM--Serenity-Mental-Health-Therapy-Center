@@ -14,11 +14,6 @@ public class PatientDAOImpl implements PatientDAO {
     }
 
     @Override
-    public Patient get(String id, Session session) {
-        return session.get(Patient.class, id);
-    }
-
-    @Override
     public boolean update(Patient patient, Session session) {
         session.update(patient);
         return true;
@@ -31,7 +26,12 @@ public class PatientDAOImpl implements PatientDAO {
     }
 
     @Override
+    public Patient get(String id, Session session) {
+        return session.get(Patient.class, id);
+    }
+
+    @Override
     public List<Patient> getAll(Session session) {
-        return session.createQuery("FROM Patient").list();
+        return session.createQuery("FROM Patient", Patient.class).list();
     }
 }

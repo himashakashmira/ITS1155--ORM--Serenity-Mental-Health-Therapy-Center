@@ -44,7 +44,7 @@
                         </VBox>
                     </HBox>
 
-                    <!-- Status + Buttons -->
+                    <!-- Status and Buttons -->
                     <HBox spacing="10" alignment="CENTER_LEFT">
                         <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
                                style="-fx-font-size:12px;-fx-font-weight:bold;"/>

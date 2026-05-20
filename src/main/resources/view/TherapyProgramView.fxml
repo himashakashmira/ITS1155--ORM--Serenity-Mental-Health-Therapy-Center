@@ -17,7 +17,8 @@
 
                 <VBox spacing="4">
                     <Label text="📋 Therapy Program Management" styleClass="section-title"/>
-                    <Label text="Define therapy programs with duration and fee (Admin only)." styleClass="section-subtitle"/>
+                    <Label text="Define therapy programs with duration and fee (Admin only)."
+                           styleClass="section-subtitle"/>
                 </VBox>
 
                 <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
@@ -40,21 +41,23 @@
                         <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
                                style="-fx-font-size:12px;-fx-font-weight:bold;"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Button text="Clear"  styleClass="btn-muted"    onAction="#btnClearOnAction"  prefWidth="90"/>
-                        <Button text="Add"    styleClass="btn-mint"     onAction="#btnSaveOnAction"   prefWidth="90"/>
+                        <Button text="Clear" styleClass="btn-muted" onAction="#btnClearOnAction" prefWidth="90"/>
+                        <Button text="Add" styleClass="btn-mint" onAction="#btnSaveOnAction" prefWidth="90"/>
                         <Button text="Update" styleClass="btn-lavender" onAction="#btnUpdateOnAction" prefWidth="100"/>
-                        <Button text="Delete" styleClass="btn-danger"   onAction="#btnDeleteOnAction" prefWidth="90"/>
+                        <Button text="Delete" styleClass="btn-danger" onAction="#btnDeleteOnAction" prefWidth="90"/>
                     </HBox>
                 </VBox>
 
                 <TableView fx:id="tblProgram" VBox.vgrow="ALWAYS" prefHeight="310">
                     <columns>
-                        <TableColumn fx:id="colId"       text="ID"       prefWidth="90"/>
-                        <TableColumn fx:id="colName"     text="Program"  prefWidth="250"/>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="90"/>
+                        <TableColumn fx:id="colName" text="Program" prefWidth="250"/>
                         <TableColumn fx:id="colDuration" text="Duration" prefWidth="150"/>
-                        <TableColumn fx:id="colFee"      text="Fee (LKR)" prefWidth="150"/>
+                        <TableColumn fx:id="colFee" text="Fee (LKR)" prefWidth="150"/>
                     </columns>
-                    <placeholder><Label text="No programs defined yet." styleClass="section-subtitle"/></placeholder>
+                    <placeholder>
+                        <Label text="No programs defined yet." styleClass="section-subtitle"/>
+                    </placeholder>
                 </TableView>
 
             </children>

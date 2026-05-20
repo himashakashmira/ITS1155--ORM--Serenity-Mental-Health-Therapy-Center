@@ -7,5 +7,9 @@ import java.util.List;
 public interface TherapistService {
     boolean saveTherapist(TherapistDTO dto);
 
+    boolean updateTherapist(TherapistDTO dto);
+
+    boolean deleteTherapist(String id);
+
     List<TherapistDTO> getAllTherapists();
 }

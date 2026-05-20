@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="780.0" prefWidth="960.0" style="-fx-background-color:transparent;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenity.controller.PaymentController">
+
+    <children>
+        <VBox layoutX="35" layoutY="30" spacing="22"
+              AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
+            <children>
+
+                <VBox spacing="4">
+                    <Label text="💳 Payment &amp; Invoice Management" styleClass="section-title"/>
+                    <Label text="Record payments and track invoices for therapy sessions."
+                           styleClass="section-subtitle"/>
+                </VBox>
+
+                <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
+                    <HBox spacing="20">
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Payment ID" styleClass="field-label"/>
+                            <TextField fx:id="txtPaymentId" prefHeight="42" promptText="Ex: PAY001"/>
+                            <Label text="Session" styleClass="field-label"/>
+                            <ComboBox fx:id="cmbSession" maxWidth="Infinity" prefHeight="42"
+                                      promptText="Select Session"/>
+                        </VBox>
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Amount (LKR)" styleClass="field-label"/>
+                            <TextField fx:id="txtAmount" prefHeight="42" promptText="e.g. 3500.00"/>
+                            <Label text="Payment Date" styleClass="field-label"/>
+                            <DatePicker fx:id="dpDate" maxWidth="Infinity" prefHeight="42"/>
+                            <Label text="Status" styleClass="field-label"/>
+                            <ComboBox fx:id="cmbStatus" maxWidth="Infinity" prefHeight="42"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
+                               style="-fx-font-size:12px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Clear" styleClass="btn-muted" onAction="#btnClearOnAction" prefWidth="90"/>
+                        <Button text="Record" styleClass="btn-mint" onAction="#btnSaveOnAction" prefWidth="100"/>
+                        <Button text="Update" styleClass="btn-lavender" onAction="#btnUpdateOnAction" prefWidth="100"/>
+                        <Button text="Delete" styleClass="btn-danger" onAction="#btnDeleteOnAction" prefWidth="90"/>
+                    </HBox>
+                </VBox>
+
+                <TableView fx:id="tblPayment" VBox.vgrow="ALWAYS" prefHeight="320">
+                    <columns>
+                        <TableColumn fx:id="colPayId" text="Pay ID" prefWidth="90"/>
+                        <TableColumn fx:id="colSessionId" text="Sess #" prefWidth="60"/>
+                        <TableColumn fx:id="colPatient" text="Patient" prefWidth="160"/>
+                        <TableColumn fx:id="colProgram" text="Program" prefWidth="170"/>
+                        <TableColumn fx:id="colAmount" text="Amount" prefWidth="100"/>
+                        <TableColumn fx:id="colDate" text="Date" prefWidth="110"/>
+                        <TableColumn fx:id="colPayStatus" text="Status" prefWidth="90"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No payment records found." styleClass="section-subtitle"/>
+                    </placeholder>
+                </TableView>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
