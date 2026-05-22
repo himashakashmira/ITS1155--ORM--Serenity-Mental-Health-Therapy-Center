@@ -7,7 +7,9 @@ import java.util.List;
 @Table(name = "therapist")
 public class Therapist {
     @Id
+    @Column(name = "therapistId", length = 10)
     private String therapistId;
+
     private String name;
     private String specialization;
     private String phone;
@@ -16,15 +18,15 @@ public class Therapist {
     @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
     private List<TherapySession> sessions;
 
+    public Therapist() {
+    }
+
     public Therapist(String therapistId, String name, String specialization, String phone, String email) {
         this.therapistId = therapistId;
         this.name = name;
         this.specialization = specialization;
         this.phone = phone;
         this.email = email;
-    }
-
-    public Therapist() {
     }
 
     public String getTherapistId() {
@@ -74,5 +76,4 @@ public class Therapist {
     public void setSessions(List<TherapySession> sessions) {
         this.sessions = sessions;
     }
-
 }

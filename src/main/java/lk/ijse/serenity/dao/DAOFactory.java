@@ -1,9 +1,6 @@
 package lk.ijse.serenity.dao;
 
-import lk.ijse.serenity.dao.custom.impl.PatientDAOImpl;
-import lk.ijse.serenity.dao.custom.impl.PaymentDAOImpl;
-import lk.ijse.serenity.dao.custom.impl.TherapistDAOImpl;
-import lk.ijse.serenity.dao.custom.impl.UserDAOImpl;
+import lk.ijse.serenity.dao.custom.impl.*;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -23,14 +20,18 @@ public class DAOFactory {
                 return new TherapistDAOImpl();
             case USER:
                 return new UserDAOImpl();
+            case PROGRAM:
+                return new TherapyProgramDAOImpl();
             case PAYMENT:
                 return new PaymentDAOImpl();
+            case SESSION:
+                return new TherapySessionDAOImpl();
             default:
                 return null;
         }
     }
 
     public enum DAOType {
-        PATIENT, THERAPIST, PROGRAM, PAYMENT, USER
+        PATIENT, THERAPIST, PROGRAM, PAYMENT, SESSION, USER
     }
 }

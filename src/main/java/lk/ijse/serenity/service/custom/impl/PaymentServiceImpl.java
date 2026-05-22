@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentServiceImpl implements PaymentService {
+
     private final PaymentDAO paymentDAO = (PaymentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PAYMENT);
 
     @Override
@@ -22,12 +23,23 @@ public class PaymentServiceImpl implements PaymentService {
         Transaction tx = session.beginTransaction();
         try {
             TherapySession ts = session.get(TherapySession.class, dto.getSessionId());
-            Payment p = new Payment(dto.getPaymentId(), dto.getAmount(), dto.getDate(), dto.getStatus(), ts);
-            paymentDAO.save(p, session);
+
+            if (ts == null) return false;
+
+            Payment payment = new Payment();
+            payment.setPaymentId(dto.getPaymentId());
+            payment.setAmount(dto.getAmount());
+            payment.setPaymentDate(dto.getDate());
+            payment.setStatus(dto.getStatus());
+            payment.setSession(ts);
+
+            paymentDAO.save(payment, session);
+
             tx.commit();
             return true;
         } catch (Exception e) {
-            tx.rollback();
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
             return false;
         } finally {
             session.close();
@@ -35,16 +47,81 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<PaymentDTO> getAll() {
+    public boolean updatePayment(PaymentDTO dto) {
         Session session = SessionFactoryConfig.getInstance().getSession();
-        List<Payment> list = paymentDAO.getAll(session);
-        List<PaymentDTO> dtos = new ArrayList<>();
-        for (Payment p : list) {
-            dtos.add(new PaymentDTO(p.getPaymentId(), p.getSession().getSessionId(),
-                    p.getSession().getPatient().getName(), p.getSession().getProgram().getProgramName(),
-                    p.getAmount(), p.getPaymentDate(), p.getStatus()));
+        Transaction tx = session.beginTransaction();
+        try {
+            Payment payment = paymentDAO.get(dto.getPaymentId(), session);
+
+            if (payment != null) {
+                payment.setAmount(dto.getAmount());
+                payment.setPaymentDate(dto.getDate());
+                payment.setStatus(dto.getStatus());
+
+                TherapySession ts = session.get(TherapySession.class, dto.getSessionId());
+                if (ts != null) {
+                    payment.setSession(ts);
+                }
+
+                paymentDAO.update(payment, session);
+                tx.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
         }
-        session.close();
-        return dtos;
+    }
+
+    @Override
+    public boolean deletePayment(String id) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            Payment payment = paymentDAO.get(id, session);
+            if (payment != null) {
+                paymentDAO.delete(payment, session);
+                tx.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<PaymentDTO> getAllPayments() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try {
+            List<Payment> list = paymentDAO.getAll(session);
+            List<PaymentDTO> dtoList = new ArrayList<>();
+
+            for (Payment p : list) {
+                String patientName = p.getSession().getPatient().getName();
+                String programName = p.getSession().getProgram().getProgramName();
+
+                dtoList.add(new PaymentDTO(
+                        p.getPaymentId(),
+                        p.getSession().getSessionId(),
+                        patientName,
+                        programName,
+                        p.getAmount(),
+                        p.getPaymentDate(),
+                        p.getStatus()
+                ));
+            }
+            return dtoList;
+        } finally {
+            session.close();
+        }
     }
 }

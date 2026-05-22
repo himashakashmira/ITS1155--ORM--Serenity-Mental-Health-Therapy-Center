@@ -60,7 +60,7 @@ public class DashboardController {
 
     @FXML
     void btnSessionsOnAction() {
-        loadView("/view/TherapySessionView.fxml");
+        loadView("/view/TherapySession.fxml");
     }
 
     @FXML

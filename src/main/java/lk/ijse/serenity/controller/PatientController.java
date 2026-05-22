@@ -57,12 +57,12 @@ public class PatientController {
 
     private void setData(PatientDTO dto) {
         txtId.setText(dto.getPatientId());
+        txtId.setEditable(false);
         txtName.setText(dto.getName());
         txtAddress.setText(dto.getAddress());
         txtEmail.setText(dto.getEmail());
         txtPhone.setText(dto.getPhone());
         dpRegDate.setValue(dto.getRegDate());
-        txtId.setEditable(false);
     }
 
     @FXML
@@ -73,6 +73,10 @@ public class PatientController {
                 showStatus("Patient Registered Successfully!", true);
                 loadAllPatients();
                 clear();
+
+                if (!tblPatient.getItems().isEmpty()) {
+                    tblPatient.getSelectionModel().selectLast();
+                }
             } else {
                 showStatus("Registration Failed!", false);
             }
@@ -81,7 +85,7 @@ public class PatientController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        if (txtId.isEditable()) {
+        if (txtId.getText().isEmpty()) {
             showStatus("Please select a patient to update!", false);
             return;
         }
@@ -123,11 +127,6 @@ public class PatientController {
     }
 
     private boolean validate() {
-        // Regex Validation (Requirement 6)
-        if (!txtId.getText().matches("^P[0-9]{3,}$")) {
-            showStatus("Invalid ID! (Ex: P001)", false);
-            return false;
-        }
         if (txtName.getText().isEmpty() || dpRegDate.getValue() == null) {
             showStatus("Name and Date are required!", false);
             return false;
@@ -142,12 +141,12 @@ public class PatientController {
 
     private void clear() {
         txtId.clear();
+        txtId.setDisable(false);
         txtName.clear();
         txtAddress.clear();
         txtEmail.clear();
         txtPhone.clear();
         dpRegDate.setValue(null);
-        txtId.setEditable(true);
         tblPatient.getSelectionModel().clearSelection();
     }
 }

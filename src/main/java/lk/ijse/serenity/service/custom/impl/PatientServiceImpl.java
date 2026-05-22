@@ -27,12 +27,14 @@ public class PatientServiceImpl implements PatientService {
                     dto.getAddress(),
                     dto.getEmail(),
                     dto.getPhone(),
-                    dto.getRegDate(), null);
+                    dto.getRegDate()
+            );
             patientDAO.save(patient, session);
             transaction.commit();
             return true;
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
             return false;
         } finally {
             session.close();
@@ -57,6 +59,7 @@ public class PatientServiceImpl implements PatientService {
             return false;
         } catch (Exception e) {
             transaction.rollback();
+            e.printStackTrace();
             return false;
         } finally {
             session.close();
@@ -77,6 +80,7 @@ public class PatientServiceImpl implements PatientService {
             return false;
         } catch (Exception e) {
             transaction.rollback();
+            e.printStackTrace();
             return false;
         } finally {
             session.close();
@@ -100,6 +104,25 @@ public class PatientServiceImpl implements PatientService {
                 ));
             }
             return dtoList;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public String getNextPatientId() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try {
+            String hql = "SELECT p.patientId FROM Patient p ORDER BY p.patientId DESC";
+            String lastId = (String) session.createQuery(hql).setMaxResults(1).uniqueResult();
+
+            if (lastId == null) {
+                return "P001";
+            }
+
+            int idNum = Integer.parseInt(lastId.substring(1));
+            return "P" + String.format("%03d", idNum + 1);
+
         } finally {
             session.close();
         }

@@ -7,5 +7,10 @@ import java.util.List;
 public interface PaymentService {
     boolean savePayment(PaymentDTO dto);
 
-    List<PaymentDTO> getAll();
+    boolean updatePayment(PaymentDTO dto);
+
+    boolean deletePayment(String id);
+
+    List<PaymentDTO> getAllPayments();
+
 }

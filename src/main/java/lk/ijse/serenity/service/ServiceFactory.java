@@ -15,7 +15,7 @@ public class ServiceFactory {
     }
 
     public enum ServiceType {
-        PATIENT, THERAPIST, PAYMENT, PROGRAM, AUTH
+        PATIENT, THERAPIST, PAYMENT, PROGRAM, SESSION, AUTH
     }
 
     public <T> T getService(ServiceType type) {
@@ -26,7 +26,8 @@ public class ServiceFactory {
                 return (T) new TherapistServiceImpl();
             case PROGRAM:
                 return (T) new TherapyProgramServiceImpl();
-//            case SESSION:   return (T) new TherapySessionServiceImpl();
+            case SESSION:
+                return (T) new TherapySessionServiceImpl();
             case PAYMENT:
                 return (T) new PaymentServiceImpl();
             case AUTH:

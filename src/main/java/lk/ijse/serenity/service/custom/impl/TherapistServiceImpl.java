@@ -101,4 +101,16 @@ public class TherapistServiceImpl implements TherapistService {
             session.close();
         }
     }
+
+    @Override
+    public String getNextTherapistId() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        String hql = "SELECT t.therapistId FROM Therapist t ORDER BY t.therapistId DESC";
+        String lastId = (String) session.createQuery(hql).setMaxResults(1).uniqueResult();
+        session.close();
+
+        if (lastId == null) return "T001";
+        int idNum = Integer.parseInt(lastId.substring(1));
+        return "T" + String.format("%03d", idNum + 1);
+    }
 }

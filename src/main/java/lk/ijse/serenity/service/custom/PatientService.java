@@ -12,4 +12,6 @@ public interface PatientService {
     boolean deletePatient(String id);
 
     List<PatientDTO> getAllPatients();
+
+    String getNextPatientId();
 }

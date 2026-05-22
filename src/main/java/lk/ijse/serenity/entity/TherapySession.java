@@ -25,7 +25,16 @@ public class TherapySession {
     @JoinColumn(name = "programId")
     private TherapyProgram program;
 
-    public TherapySession() {}
+    public TherapySession(LocalDate sessionDate, String status, Patient patient, Therapist therapist, TherapyProgram program) {
+        this.sessionDate = sessionDate;
+        this.status = status;
+        this.patient = patient;
+        this.therapist = therapist;
+        this.program = program;
+    }
+
+    public TherapySession() {
+    }
 
     public int getSessionId() {
         return sessionId;

@@ -12,4 +12,6 @@ public interface TherapistService {
     boolean deleteTherapist(String id);
 
     List<TherapistDTO> getAllTherapists();
+
+    String getNextTherapistId();
 }

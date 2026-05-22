@@ -6,15 +6,23 @@ import java.util.List;
 @Entity
 @Table(name = "therapy_program")
 public class TherapyProgram {
+
     @Id
+    @Column(name = "programId", length = 10)
     private String programId;
+
+    @Column(nullable = false)
     private String programName;
+
     private String duration;
+
     private double fee;
 
-    // Relationship
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
     private List<TherapySession> sessions;
+
+    public TherapyProgram() {
+    }
 
     public TherapyProgram(String programId, String programName, String duration, double fee, List<TherapySession> sessions) {
         this.programId = programId;
@@ -22,16 +30,6 @@ public class TherapyProgram {
         this.duration = duration;
         this.fee = fee;
         this.sessions = sessions;
-    }
-
-    public TherapyProgram() {
-    }
-
-    public TherapyProgram(String programId, String programName, String duration, double fee) {
-        this.programId = programId;
-        this.programName = programName;
-        this.duration = duration;
-        this.fee = fee;
     }
 
     public String getProgramId() {
@@ -72,5 +70,14 @@ public class TherapyProgram {
 
     public void setSessions(List<TherapySession> sessions) {
         this.sessions = sessions;
+    }
+
+    @Override
+    public String toString() {
+        return "TherapyProgram{" +
+                "programId='" + programId + '\'' +
+                ", programName='" + programName + '\'' +
+                ", fee=" + fee +
+                '}';
     }
 }
