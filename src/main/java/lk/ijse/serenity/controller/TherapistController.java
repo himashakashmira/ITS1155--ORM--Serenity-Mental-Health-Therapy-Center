@@ -6,40 +6,32 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.serenity.dto.TherapistDTO;
+import lk.ijse.serenity.exception.RegistrationException;
 import lk.ijse.serenity.service.ServiceFactory;
 import lk.ijse.serenity.service.custom.TherapistService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class TherapistController {
 
     @FXML
-    private TextField txtId;
-    @FXML
-    private TextField txtName;
-    @FXML
-    private TextField txtSpecialization;
-    @FXML
-    private TextField txtPhone;
-    @FXML
-    private TextField txtEmail;
+    private TextField txtId, txtName, txtSpecialization, txtPhone, txtEmail;
     @FXML
     private Label lblStatus;
-
     @FXML
     private TableView<TherapistDTO> tblTherapist;
     @FXML
-    private TableColumn<TherapistDTO, String> colId;
-    @FXML
-    private TableColumn<TherapistDTO, String> colName;
-    @FXML
-    private TableColumn<TherapistDTO, String> colSpec;
-    @FXML
-    private TableColumn<TherapistDTO, String> colPhone;
-    @FXML
-    private TableColumn<TherapistDTO, String> colEmail;
+    private TableColumn<TherapistDTO, String> colId, colName, colSpec, colPhone, colEmail;
 
-    private final TherapistService therapistService = ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST);
+    private static final Pattern ID_PATTERN = Pattern.compile("^T\\d{3}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w._%+\\-]+@[\\w.\\-]+\\.[a-zA-Z]{2,}$");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^(07[0-9]{8}|\\+947[0-9]{8})$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z .]{2,60}$");
+
+    private final TherapistService therapistService =
+            ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST);
 
     public void initialize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
@@ -50,11 +42,8 @@ public class TherapistController {
 
         loadAllTherapists();
 
-        // select the table fill the field
-        tblTherapist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                setData(newValue);
-            }
+        tblTherapist.getSelectionModel().selectedItemProperty().addListener((obs, old, val) -> {
+            if (val != null) setData(val);
         });
     }
 
@@ -63,8 +52,7 @@ public class TherapistController {
             List<TherapistDTO> all = therapistService.getAllTherapists();
             tblTherapist.setItems(FXCollections.observableArrayList(all));
         } catch (Exception e) {
-            lblStatus.setText("Error loading data!");
-            lblStatus.setStyle("-fx-text-fill: #e53e3e;");
+            showStatus("Error loading therapists!", false);
         }
     }
 
@@ -79,30 +67,58 @@ public class TherapistController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        String id = txtId.getText();
-        String name = txtName.getText();
-        String spec = txtSpecialization.getText();
-        String phone = txtPhone.getText();
-        String email = txtEmail.getText();
+        if (!validate()) return;
+        TherapistDTO dto = new TherapistDTO(txtId.getText().trim(), txtName.getText().trim(),
+                txtSpecialization.getText().trim(), txtPhone.getText().trim(), txtEmail.getText().trim());
+        try {
+            if (therapistService.saveTherapist(dto)) {
+                showStatus("Therapist Saved Successfully!", true);
+                loadAllTherapists();
+                clear();
+            } else {
+                showStatus("Save Failed! ID may already exist.", false);
+            }
+        } catch (RegistrationException e) {
+            showAlert("Registration Error", e.getMessage());
+        }
+    }
 
-        if (!id.matches("^T[0-9]{3,}$")) {
-            lblStatus.setText("Invalid ID! Use T001 format.");
-            lblStatus.setStyle("-fx-text-fill: #e53e3e;");
+    @FXML
+    void btnUpdateOnAction(ActionEvent event) {
+        if (txtId.getText().isEmpty()) {
+            showStatus("Select a therapist!", false);
             return;
         }
-
-        TherapistDTO dto = new TherapistDTO(id, name, spec, phone, email);
-
-        boolean isSaved = therapistService.saveTherapist(dto);
-
-        if (isSaved) {
-            lblStatus.setText("Therapist record updated successfully!");
-            lblStatus.setStyle("-fx-text-fill: #38a169;");
+        if (!validateForUpdate()) return;
+        TherapistDTO dto = new TherapistDTO(txtId.getText().trim(), txtName.getText().trim(),
+                txtSpecialization.getText().trim(), txtPhone.getText().trim(), txtEmail.getText().trim());
+        if (therapistService.updateTherapist(dto)) {
+            showStatus("Therapist Updated Successfully!", true);
             loadAllTherapists();
             clear();
         } else {
-            lblStatus.setText("Failed to save therapist.");
-            lblStatus.setStyle("-fx-text-fill: #e53e3e;");
+            showStatus("Update Failed!", false);
+        }
+    }
+
+    @FXML
+    void btnDeleteOnAction(ActionEvent event) {
+        String id = txtId.getText();
+        if (id.isEmpty()) {
+            showStatus("Select a therapist first!", false);
+            return;
+        }
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "Delete Therapist " + id + "?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            if (therapistService.deleteTherapist(id)) {
+                showStatus("Therapist Deleted!", true);
+                loadAllTherapists();
+                clear();
+            } else {
+                showStatus("Delete Failed!", false);
+            }
         }
     }
 
@@ -110,6 +126,63 @@ public class TherapistController {
     void btnClearOnAction(ActionEvent event) {
         clear();
         lblStatus.setText("");
+    }
+
+    private boolean validate() {
+        String id = txtId.getText().trim();
+        String name = txtName.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtPhone.getText().trim();
+
+        if (!ID_PATTERN.matcher(id).matches()) {
+            showStatus("Invalid Therapist ID! Eg: T001", false);
+            txtId.requestFocus();
+            return false;
+        }
+        if (!NAME_PATTERN.matcher(name).matches()) {
+            showStatus("Invalid Name! Only letters (2-60 chars).", false);
+            txtName.requestFocus();
+            return false;
+        }
+        if (!email.isEmpty() && !EMAIL_PATTERN.matcher(email).matches()) {
+            showStatus("Invalid Email format!", false);
+            txtEmail.requestFocus();
+            return false;
+        }
+        if (!phone.isEmpty() && !PHONE_PATTERN.matcher(phone).matches()) {
+            showStatus("Invalid Phone! Use 07XXXXXXXX", false);
+            txtPhone.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateForUpdate() {
+        String name = txtName.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtPhone.getText().trim();
+        if (name.isEmpty()) {
+            showStatus("Name is required!", false);
+            return false;
+        }
+        if (!email.isEmpty() && !EMAIL_PATTERN.matcher(email).matches()) {
+            showStatus("Invalid Email!", false);
+            return false;
+        }
+        if (!phone.isEmpty() && !PHONE_PATTERN.matcher(phone).matches()) {
+            showStatus("Invalid Phone!", false);
+            return false;
+        }
+        return true;
+    }
+
+    private void showStatus(String msg, boolean success) {
+        lblStatus.setText(msg);
+        lblStatus.setStyle("-fx-text-fill: " + (success ? "#38a169" : "#e53e3e") + ";");
+    }
+
+    private void showAlert(String title, String msg) {
+        new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK).showAndWait();
     }
 
     private void clear() {

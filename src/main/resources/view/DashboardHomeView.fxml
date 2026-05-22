@@ -1,52 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="970.0" style="-fx-background-color:transparent;"
-            stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="720.0" prefWidth="970.0"
+            style="-fx-background-color: transparent;"
+            stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/11"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.serenity.controller.DashboardHomeController">
     <children>
-        <VBox layoutX="40" layoutY="40" spacing="28"
-              AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40">
+        <VBox layoutX="35" layoutY="30" spacing="28"
+              AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
             <children>
 
-                <!-- Title -->
+                <!-- Header -->
                 <VBox spacing="4">
-                    <Label text="📊 Dashboard Overview" styleClass="section-title"/>
-                    <Label text="Manage your center operations smoothly and efficiently."
+                    <Label text="📊 System Overview" styleClass="section-title"/>
+                    <Label text="Real-time statistics of Serenity Mental Health Therapy Center"
                            styleClass="section-subtitle"/>
                 </VBox>
 
-                <!-- Stat Cards -->
-                <HBox spacing="24">
+                <!-- 4 Stat Cards -->
+                <HBox spacing="16">
                     <children>
-                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
-                            <Label text="Total Patients" styleClass="stat-label"/>
-                            <Label text="—" styleClass="stat-number"/>
+                        <!-- Total Patients -->
+                        <VBox prefHeight="130" HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding: 22; -fx-border-color: rgba(56,161,105,0.25);">
+                            <Label text="👤 Total Patients" style="-fx-text-fill:#718096; -fx-font-weight:bold; -fx-font-size:12px;"/>
+                            <Label fx:id="lblTotalPatients" text="–" styleClass="stat-number"
+                                   style="-fx-font-size:38px; -fx-font-weight:bold; -fx-text-fill:#2d3748;"/>
+                            <Label text="Registered in system" style="-fx-text-fill:#a0aec0; -fx-font-size:11px;"/>
                         </VBox>
-                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
-                            <Label text="Today's Sessions" styleClass="stat-label"/>
-                            <Label text="—" styleClass="stat-number-mint"/>
+
+                        <!-- Today's Sessions -->
+                        <VBox prefHeight="130" HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding: 22; -fx-border-color: rgba(108,99,255,0.25);">
+                            <Label text="📅 Today's Sessions" style="-fx-text-fill:#718096; -fx-font-weight:bold; -fx-font-size:12px;"/>
+                            <Label fx:id="lblTodaySessions" text="–" styleClass="stat-number-lavender"
+                                   style="-fx-font-size:38px; -fx-font-weight:bold;"/>
+                            <Label text="Scheduled for today" style="-fx-text-fill:#a0aec0; -fx-font-size:11px;"/>
                         </VBox>
-                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
-                            <Label text="Active Therapists" styleClass="stat-label"/>
-                            <Label text="—" styleClass="stat-number-lavender"/>
+
+                        <!-- Active Therapists -->
+                        <VBox prefHeight="130" HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding: 22; -fx-border-color: rgba(237,137,54,0.25);">
+                            <Label text="👨‍⚕️ Active Therapists" style="-fx-text-fill:#718096; -fx-font-weight:bold; -fx-font-size:12px;"/>
+                            <Label fx:id="lblActiveTherapists" text="–"
+                                   style="-fx-font-size:38px; -fx-font-weight:bold; -fx-text-fill:#c05621;"/>
+                            <Label text="With session activity" style="-fx-text-fill:#a0aec0; -fx-font-size:11px;"/>
                         </VBox>
-                        <VBox prefWidth="200" spacing="8" styleClass="stat-card">
-                            <Label text="Pending Payments" styleClass="stat-label"/>
-                            <Label text="—" styleClass="stat-number"/>
+
+                        <!-- Pending Payments -->
+                        <VBox prefHeight="130" HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding: 22; -fx-border-color: rgba(229,62,62,0.25);">
+                            <Label text="💳 Pending Payments" style="-fx-text-fill:#718096; -fx-font-weight:bold; -fx-font-size:12px;"/>
+                            <Label fx:id="lblPendingPayments" text="–"
+                                   style="-fx-font-size:38px; -fx-font-weight:bold; -fx-text-fill:#c53030;"/>
+                            <Label text="Awaiting settlement" style="-fx-text-fill:#a0aec0; -fx-font-size:11px;"/>
                         </VBox>
                     </children>
                 </HBox>
 
-                <!-- Info card -->
-                <VBox styleClass="glass-panel" style="-fx-padding:24;" spacing="8">
-                    <Label text="🌿 Welcome to Serenity Therapy Center" styleClass="section-title"
-                           style="-fx-font-size:18px;"/>
-                    <Label text="Use the sidebar to navigate between Patients, Therapists, Programs, Sessions and Payments."
-                           styleClass="section-subtitle" wrapText="true"/>
-                </VBox>
+                <!-- Revenue Card and HQL Special Patients -->
+                <HBox spacing="16">
+                    <children>
+                        <!-- Total Revenue -->
+                        <VBox prefHeight="120" prefWidth="220" styleClass="glass-panel"
+                              style="-fx-padding: 22; -fx-border-color: rgba(56,161,105,0.35);">
+                            <Label text="💰 Total Revenue (LKR)" style="-fx-text-fill:#718096; -fx-font-weight:bold; -fx-font-size:12px;"/>
+                            <Label fx:id="lblTotalRevenue" text="–" styleClass="stat-number-mint"
+                                   style="-fx-font-size:30px; -fx-font-weight:bold;"/>
+                            <Label text="From paid sessions" style="-fx-text-fill:#a0aec0; -fx-font-size:11px;"/>
+                        </VBox>
+
+                        <!-- HQL Join Special Patients -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding: 22;">
+                            <Label text="🌿 HQL Special Insight – Patients in ALL Programs"
+                                   styleClass="field-label" style="-fx-font-size:13px;"/>
+                            <Label text="Patients enrolled in every available therapy program:"
+                                   style="-fx-text-fill:#4a5568; -fx-font-size:12px;"/>
+                            <ListView fx:id="lstSpecialPatients" prefHeight="160"
+                                      style="-fx-background-color:transparent; -fx-background-radius:10;"/>
+                        </VBox>
+                    </children>
+                </HBox>
 
             </children>
         </VBox>

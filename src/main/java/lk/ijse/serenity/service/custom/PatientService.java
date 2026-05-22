@@ -14,4 +14,6 @@ public interface PatientService {
     List<PatientDTO> getAllPatients();
 
     String getNextPatientId();
+
+    List<String[]> searchPatientsWithPrograms(String keyword);  // HQL join
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="960.0" style="-fx-background-color:transparent;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenity.controller.ReportController">
+
+    <children>
+        <VBox layoutX="35" layoutY="30" spacing="28"
+              AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
+            <children>
+
+                <!-- Header -->
+                <VBox spacing="4">
+                    <Label text="📊 Reports &amp; Analytics" styleClass="section-title"/>
+                    <Label text="Generate detailed PDF reports for management and administration."
+                           styleClass="section-subtitle"/>
+                </VBox>
+
+                <!-- Report Cards -->
+                <HBox spacing="20">
+                    <children>
+
+                        <!-- Patient Report Card -->
+                        <VBox HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding:30; -fx-border-color:rgba(56,161,105,0.35);"
+                              spacing="14" alignment="TOP_CENTER">
+                            <Label text="👤" style="-fx-font-size:40px;"/>
+                            <Label text="Patient Records Report"
+                                   style="-fx-font-size:15px; -fx-font-weight:bold; -fx-text-fill:#2d3748;"/>
+                            <Label wrapText="true" maxWidth="230" alignment="CENTER"
+                                   text="Full list of all registered patients including personal details and registration dates."
+                                   style="-fx-text-fill:#718096; -fx-font-size:12px;" textAlignment="CENTER"/>
+                            <Region prefHeight="10"/>
+                            <Button text="Generate PDF Report" styleClass="btn-mint" maxWidth="Infinity"
+                                    onAction="#btnPatientReportOnAction" prefHeight="40"/>
+                        </VBox>
+
+                        <!-- Session Report Card -->
+                        <VBox HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding:30; -fx-border-color:rgba(108,99,255,0.35);"
+                              spacing="14" alignment="TOP_CENTER">
+                            <Label text="📅" style="-fx-font-size:40px;"/>
+                            <Label text="Therapy Sessions Report"
+                                   style="-fx-font-size:15px; -fx-font-weight:bold; -fx-text-fill:#2d3748;"/>
+                            <Label wrapText="true" maxWidth="230" alignment="CENTER"
+                                   text="All scheduled and completed therapy sessions with patient, therapist and program details."
+                                   style="-fx-text-fill:#718096; -fx-font-size:12px;" textAlignment="CENTER"/>
+                            <Region prefHeight="10"/>
+                            <Button text="Generate PDF Report" styleClass="btn-lavender" maxWidth="Infinity"
+                                    onAction="#btnSessionReportOnAction" prefHeight="40"/>
+                        </VBox>
+
+                        <!-- Financial Report Card -->
+                        <VBox HBox.hgrow="ALWAYS" styleClass="glass-panel"
+                              style="-fx-padding:30; -fx-border-color:rgba(56,161,105,0.35);"
+                              spacing="14" alignment="TOP_CENTER">
+                            <Label text="💰" style="-fx-font-size:40px;"/>
+                            <Label text="Financial Payment Report"
+                                   style="-fx-font-size:15px; -fx-font-weight:bold; -fx-text-fill:#2d3748;"/>
+                            <Label wrapText="true" maxWidth="230" alignment="CENTER"
+                                   text="Complete payment records with totals, status summary and transaction history."
+                                   style="-fx-text-fill:#718096; -fx-font-size:12px;" textAlignment="CENTER"/>
+                            <Region prefHeight="10"/>
+                            <Button text="Generate PDF Report" styleClass="btn-mint" maxWidth="Infinity"
+                                    onAction="#btnPaymentReportOnAction" prefHeight="40"/>
+                        </VBox>
+
+                    </children>
+                </HBox>
+
+                <!-- Status Bar -->
+                <HBox styleClass="glass-panel" style="-fx-padding:18;" alignment="CENTER_LEFT" spacing="12">
+                    <Label text="Status:" style="-fx-font-weight:bold; -fx-text-fill:#4a5568;"/>
+                    <Label fx:id="lblStatus" text="Click a report button above to generate a PDF."
+                           style="-fx-text-fill:#718096; -fx-font-size:13px;"/>
+                </HBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

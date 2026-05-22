@@ -2,8 +2,6 @@ package lk.ijse.serenity.service;
 
 import lk.ijse.serenity.service.custom.impl.*;
 
-import static lk.ijse.serenity.dao.DAOFactory.DAOType.PROGRAM;
-
 public class ServiceFactory {
     private static ServiceFactory serviceFactory;
 
@@ -15,7 +13,7 @@ public class ServiceFactory {
     }
 
     public enum ServiceType {
-        PATIENT, THERAPIST, PAYMENT, PROGRAM, SESSION, AUTH
+        PATIENT, THERAPIST, PAYMENT, PROGRAM, SESSION, DASHBOARD, USER, REPORT
     }
 
     public <T> T getService(ServiceType type) {
@@ -30,8 +28,12 @@ public class ServiceFactory {
                 return (T) new TherapySessionServiceImpl();
             case PAYMENT:
                 return (T) new PaymentServiceImpl();
-            case AUTH:
-                return (T) new AuthServiceImpl();
+            case USER:
+                return (T) new UserServiceImpl();
+            case DASHBOARD:
+                return (T) new DashboardServiceImpl();
+            case REPORT:
+                return (T) new ReportServiceImpl();
             default:
                 throw new IllegalArgumentException("Unknown ServiceType: " + type);
         }

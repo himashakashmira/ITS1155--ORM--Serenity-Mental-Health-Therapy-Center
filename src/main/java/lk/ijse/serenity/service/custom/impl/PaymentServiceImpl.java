@@ -10,12 +10,14 @@ import lk.ijse.serenity.util.SessionFactoryConfig;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentServiceImpl implements PaymentService {
 
-    private final PaymentDAO paymentDAO = (PaymentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PAYMENT);
+    private final PaymentDAO paymentDAO =
+            (PaymentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PAYMENT);
 
     @Override
     public boolean savePayment(PaymentDTO dto) {
@@ -23,18 +25,16 @@ public class PaymentServiceImpl implements PaymentService {
         Transaction tx = session.beginTransaction();
         try {
             TherapySession ts = session.get(TherapySession.class, dto.getSessionId());
-
             if (ts == null) return false;
 
             Payment payment = new Payment();
             payment.setPaymentId(dto.getPaymentId());
             payment.setAmount(dto.getAmount());
-            payment.setPaymentDate(dto.getDate());
+            payment.setPaymentDate(dto.getDate() != null ? dto.getDate() : LocalDate.now());
             payment.setStatus(dto.getStatus());
             payment.setSession(ts);
 
             paymentDAO.save(payment, session);
-
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -52,17 +52,12 @@ public class PaymentServiceImpl implements PaymentService {
         Transaction tx = session.beginTransaction();
         try {
             Payment payment = paymentDAO.get(dto.getPaymentId(), session);
-
             if (payment != null) {
                 payment.setAmount(dto.getAmount());
-                payment.setPaymentDate(dto.getDate());
+                payment.setPaymentDate(dto.getDate() != null ? dto.getDate() : LocalDate.now());
                 payment.setStatus(dto.getStatus());
-
                 TherapySession ts = session.get(TherapySession.class, dto.getSessionId());
-                if (ts != null) {
-                    payment.setSession(ts);
-                }
-
+                if (ts != null) payment.setSession(ts);
                 paymentDAO.update(payment, session);
                 tx.commit();
                 return true;
@@ -106,17 +101,28 @@ public class PaymentServiceImpl implements PaymentService {
             List<PaymentDTO> dtoList = new ArrayList<>();
 
             for (Payment p : list) {
-                String patientName = p.getSession().getPatient().getName();
-                String programName = p.getSession().getProgram().getProgramName();
+                String patientName = "Unknown";
+                String programName = "Unknown";
+                int sessionId = 0;
+
+                if (p.getSession() != null) {
+                    sessionId = p.getSession().getSessionId();
+                    if (p.getSession().getPatient() != null) {
+                        patientName = p.getSession().getPatient().getName();
+                    }
+                    if (p.getSession().getProgram() != null) {
+                        programName = p.getSession().getProgram().getProgramName();
+                    }
+                }
 
                 dtoList.add(new PaymentDTO(
                         p.getPaymentId(),
-                        p.getSession().getSessionId(),
+                        sessionId,
                         patientName,
                         programName,
                         p.getAmount(),
-                        p.getPaymentDate(),
-                        p.getStatus()
+                        p.getPaymentDate() != null ? p.getPaymentDate() : LocalDate.now(),
+                        p.getStatus() != null ? p.getStatus() : "Unknown"
                 ));
             }
             return dtoList;

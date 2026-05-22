@@ -11,42 +11,52 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="lk.ijse.serenity.controller.PatientController">
     <children>
-        <VBox layoutX="35" layoutY="30" spacing="22"
+        <VBox layoutX="35" layoutY="30" spacing="20"
               AnchorPane.leftAnchor="35" AnchorPane.rightAnchor="35">
             <children>
 
                 <!-- Page Title -->
                 <VBox spacing="4">
                     <Label text="👤 Patient Management" styleClass="section-title"/>
-                    <Label text="Register, update, and manage patient records." styleClass="section-subtitle"/>
+                    <Label text="Register, update, search and manage patient records."
+                           styleClass="section-subtitle"/>
                 </VBox>
 
                 <!-- Form Card -->
-                <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="16">
+                <VBox styleClass="glass-panel" style="-fx-padding:28;" spacing="14">
                     <HBox spacing="20">
                         <!-- Left column -->
-                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                        <VBox spacing="10" HBox.hgrow="ALWAYS">
                             <Label text="Patient ID" styleClass="field-label"/>
-                            <TextField fx:id="txtId" prefHeight="42" promptText="Ex: P001"/>
+                            <TextField fx:id="txtId" prefHeight="40" promptText="Auto: P001"/>
                             <Label text="Full Name" styleClass="field-label"/>
-                            <TextField fx:id="txtName" prefHeight="42" promptText="Full name"/>
+                            <TextField fx:id="txtName" prefHeight="40" promptText="e.g. Kasun Perera"/>
                             <Label text="Address" styleClass="field-label"/>
-                            <TextField fx:id="txtAddress" prefHeight="42" promptText="Address"/>
+                            <TextField fx:id="txtAddress" prefHeight="40" promptText="No, Street, City"/>
                         </VBox>
                         <!-- Right column -->
-                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                        <VBox spacing="10" HBox.hgrow="ALWAYS">
                             <Label text="Email" styleClass="field-label"/>
-                            <TextField fx:id="txtEmail" prefHeight="42" promptText="email@example.com"/>
+                            <TextField fx:id="txtEmail" prefHeight="40" promptText="email@example.com"/>
                             <Label text="Phone" styleClass="field-label"/>
-                            <TextField fx:id="txtPhone" prefHeight="42" promptText="07XXXXXXXX"/>
+                            <TextField fx:id="txtPhone" prefHeight="40" promptText="07XXXXXXXX"/>
                             <Label text="Registration Date" styleClass="field-label"/>
-                            <DatePicker fx:id="dpRegDate" prefHeight="42" maxWidth="Infinity"/>
+                            <DatePicker fx:id="dpRegDate" prefHeight="40" maxWidth="Infinity"/>
                         </VBox>
                     </HBox>
 
-                    <!-- Status and Buttons -->
+                    <!-- Search Row -->
                     <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label fx:id="lblStatus" wrapText="true" maxWidth="400"
+                        <Label text="🔍 Search:" styleClass="field-label"/>
+                        <TextField fx:id="txtSearch" prefHeight="38" HBox.hgrow="ALWAYS"
+                                   promptText="Search by patient name or ID to view enrolled programs..."/>
+                        <Button text="Search + Programs" styleClass="btn-lavender"
+                                onAction="#btnSearchOnAction" prefHeight="38"/>
+                    </HBox>
+
+                    <!-- Buttons Row -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="lblStatus" wrapText="true" maxWidth="380"
                                style="-fx-font-size:12px;-fx-font-weight:bold;"/>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Button text="Clear" styleClass="btn-muted" onAction="#btnClearOnAction" prefWidth="90"/>
@@ -57,14 +67,14 @@
                 </VBox>
 
                 <!-- Table -->
-                <TableView fx:id="tblPatient" VBox.vgrow="ALWAYS" prefHeight="330">
+                <TableView fx:id="tblPatient" VBox.vgrow="ALWAYS" prefHeight="310">
                     <columns>
-                        <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
-                        <TableColumn fx:id="colName" text="Name" prefWidth="170"/>
-                        <TableColumn fx:id="colAddress" text="Address" prefWidth="150"/>
-                        <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
-                        <TableColumn fx:id="colPhone" text="Phone" prefWidth="120"/>
-                        <TableColumn fx:id="colRegDate" text="Registered" prefWidth="120"/>
+                        <TableColumn fx:id="colId"      text="ID"         prefWidth="75"/>
+                        <TableColumn fx:id="colName"    text="Name"       prefWidth="170"/>
+                        <TableColumn fx:id="colAddress" text="Address"    prefWidth="160"/>
+                        <TableColumn fx:id="colEmail"   text="Email"      prefWidth="185"/>
+                        <TableColumn fx:id="colPhone"   text="Phone"      prefWidth="120"/>
+                        <TableColumn fx:id="colRegDate" text="Registered" prefWidth="115"/>
                     </columns>
                     <placeholder>
                         <Label text="No patient records found." styleClass="section-subtitle"/>

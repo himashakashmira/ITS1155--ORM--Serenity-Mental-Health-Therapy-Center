@@ -5,16 +5,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lk.ijse.serenity.dto.UserDTO;
+import lk.ijse.serenity.exception.LoginException;
 import lk.ijse.serenity.service.ServiceFactory;
-import lk.ijse.serenity.service.custom.AuthService;
+import lk.ijse.serenity.service.custom.UserService;
+import lk.ijse.serenity.util.PasswordUtil;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 public class LoginController {
 
@@ -24,47 +26,73 @@ public class LoginController {
     private PasswordField txtPassword;
     @FXML
     private Label lblError;
+    @FXML
+    private CheckBox chkShowPassword;
+    @FXML
+    private TextField txtPasswordPlain;
 
-    private final AuthService authService =
-            ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.AUTH);
-
-    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,20}$");
+    private final UserService userService =
+            ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.USER);
 
     @FXML
-    void btnLoginOnAction(ActionEvent event) throws IOException {
+    void btnLoginOnAction(ActionEvent event) {
         String username = txtUsername.getText().trim();
-        String password = txtPassword.getText();
+        String password = chkShowPassword.isSelected()
+                ? txtPasswordPlain.getText()
+                : txtPassword.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            showError("Username and Password cannot be empty.");
-            return;
-        }
-        if (!USERNAME_PATTERN.matcher(username).matches()) {
-            showError("Username: 3-20 alphanumeric characters only.");
-            return;
-        }
+        lblError.setVisible(false);
 
         try {
-            UserDTO loggedIn = authService.login(username, password);
-            if (loggedIn != null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DashboardView.fxml"));
-                Parent root = loader.load();
-                DashboardController dashCtrl = loader.getController();
-                dashCtrl.initDashboard(loggedIn);
-
-                Stage stage = (Stage) txtUsername.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Serenity Therapy Center – Dashboard");
-                stage.centerOnScreen();
-            } else {
-                showError("Invalid username or password.");
+            if (username.isEmpty() || password.isEmpty()) {
+                throw new LoginException("Username and password are required!");
             }
+
+            UserDTO userDTO = userService.searchUser(username);
+
+            if (userDTO == null || !PasswordUtil.checkPassword(password, userDTO.getPassword())) {
+                throw new LoginException("Invalid username or password!");
+            }
+
+            // Login Success
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DashboardView.fxml"));
+            Parent root = loader.load();
+
+            DashboardController dashCtrl = loader.getController();
+            dashCtrl.initDashboard(userDTO);
+
+            Stage stage = (Stage) txtUsername.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Serenity Therapy Center – Dashboard");
+            stage.setWidth(1200);
+            stage.setHeight(800);
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (LoginException e) {
+            lblError.setText("⚠ " + e.getMessage());
+            lblError.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            lblError.setText("System Error: Could not load dashboard.");
+            lblError.setVisible(true);
         } catch (Exception e) {
-            showError("Login error: " + e.getMessage());
+            e.printStackTrace();
+            lblError.setText("An unexpected error occurred.");
+            lblError.setVisible(true);
         }
     }
 
-    private void showError(String msg) {
-        lblError.setText(msg);
+    @FXML
+    void chkShowPasswordOnAction(ActionEvent event) {
+        if (chkShowPassword.isSelected()) {
+            txtPasswordPlain.setText(txtPassword.getText());
+            txtPasswordPlain.setVisible(true);
+            txtPassword.setVisible(false);
+        } else {
+            txtPassword.setText(txtPasswordPlain.getText());
+            txtPassword.setVisible(true);
+            txtPasswordPlain.setVisible(false);
+        }
     }
 }
